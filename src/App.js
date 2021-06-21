@@ -7,6 +7,7 @@ import {
 }  from "react-router-dom";
 import RegistrForm from "./component/RegistrForm/RegistrForm";
 import LoginForm from "./component/LoginForm/loginForm";
+import ProfileUser from "./component/ProfileUser/ProfileUser";
 
 
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
         <nav>
           <ul>
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/profile">ProfileUser</Link>
             </li>
             <li>
               <Link to="/login">LoginForm</Link>
@@ -34,8 +35,8 @@ export default function App() {
           <Route path="/registr">
             <RegistrForm />
           </Route>
-          <Route path="/">
-            <Home />
+          <Route path="/profile">
+            <ProfileUser />
           </Route>
         </Switch>
       </div>
@@ -43,11 +44,4 @@ export default function App() {
   );
 }
 
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
 

@@ -30,10 +30,10 @@ class RegistrForm extends Component {
     }
 
     componentDidMount() {
-        axios.post(`http://127.0.0.1:8000/api/user/last_id/`)
+        axios.get(`http://127.0.0.1:8000/api/user/last_id/`)
             .then(res => {
                 const id = res.data.user_id + 1;
-                console.log(id);
+                // console.log(id);
                 this.setState({
                     username: `test_${id}`,
                     email: `test_${id}@gmail.com`,

@@ -7,5 +7,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="11-11" />
+    <orderEntry type="module" module-name="file_manager_front" />
   </component>
 </module>

@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import {Alert, Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
-import {setUserToken} from "../../store/actions/actions";
 import {connect} from 'react-redux'
+import {setUserToken} from "../../store/actions/actions";
 
 class LoginForm extends Component {
     constructor(props) {
@@ -12,7 +12,7 @@ class LoginForm extends Component {
         this.state = {
             username: `test_${id}`,
             email: `test_${id}@gmail.com`,
-            password:"39689794aa",
+            password: "39689794aa",
             password_invalid: false,
             username_invalid: false,
             mess_show: false,
@@ -58,14 +58,14 @@ class LoginForm extends Component {
 
         axios.post(`http://127.0.0.1:8000/api/user/login/`, this.state)
             .then(res => {
-                console.log(res.data);
                 this.props.setUserTokenAction(res.data.token);
-                this.setState({token: res.data.token});
-                this.messShow(true);
+                this.setState({
+                    token: res.data.token,
+                    mess_show: true,
+                });
 
             }).catch(error => {
-                console.log(error.response.data);
-                this.setState(state => ({
+            this.setState(state => ({
                 password_invalid: true,
                 username_invalid: true
             }));
@@ -78,7 +78,7 @@ class LoginForm extends Component {
     }
 
     componentDidMount() {
-        axios.post(`http://127.0.0.1:8000/api/user/last_id/`)
+        axios.get(`http://127.0.0.1:8000/api/user/last_id/`)
             .then(res => {
                 const id = res.data.user_id;
                 this.setState({
@@ -184,10 +184,12 @@ class LoginForm extends Component {
     }
 }
 
+
 const mapDispatchToProps = (dispatch) => {
     return {
         setUserTokenAction: (token) => dispatch(setUserToken(token)),
     }
 }
+
+
 export default connect(null, mapDispatchToProps)(withRouter(LoginForm));
-// export default withRouter(LoginForm);
