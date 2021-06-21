@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../old/file_manager_front/.idea/file_manager_front.iml" filepath="$PROJECT_DIR$/../../old/file_manager_front/.idea/file_manager_front.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/notebook_front.iml" filepath="$PROJECT_DIR$/.idea/notebook_front.iml" />
     </modules>
   </component>
