@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import {Alert, Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
+import {setUserToken} from "../../store/actions/actions";
+import {connect} from 'react-redux'
 
 class LoginForm extends Component {
     constructor(props) {
@@ -57,8 +59,7 @@ class LoginForm extends Component {
         axios.post(`http://127.0.0.1:8000/api/user/login/`, this.state)
             .then(res => {
                 console.log(res.data);
-
-                // this.props.history.push('/');
+                this.props.setUserTokenAction(res.data.token);
                 this.setState({token: res.data.token});
                 this.messShow(true);
 
@@ -183,5 +184,10 @@ class LoginForm extends Component {
     }
 }
 
-
-export default withRouter(LoginForm);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setUserTokenAction: (token) => dispatch(setUserToken(token)),
+    }
+}
+export default connect(null, mapDispatchToProps)(withRouter(LoginForm));
+// export default withRouter(LoginForm);
