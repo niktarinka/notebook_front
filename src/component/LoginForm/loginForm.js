@@ -77,8 +77,8 @@ class LoginForm extends Component {
         this.props.history.push('/');
     }
 
-    componentDidMount() {
-        axios.get(`http://127.0.0.1:8000/api/user/last_id/`)
+    async componentDidMount() {
+        await axios.get(`http://127.0.0.1:8000/api/user/last_id/`)
             .then(res => {
                 const id = res.data.user_id;
                 this.setState({
