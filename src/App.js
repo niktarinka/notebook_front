@@ -9,28 +9,25 @@ import RegistrForm from "./component/RegistrForm/RegistrForm";
 import LoginForm from "./component/LoginForm/loginForm";
 import ProfileUser from "./component/ProfileUser/ProfileUser";
 import NotebookForm from "./component/NotebookForm/NotebookForm";
-
+import UserComponent from "./component/UserComponent/UserComponent";
 
 export default function App() {
     return (
         <Router>
             <div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/profile">ProfileUser</Link>
-                        </li>
-                        <li>
-                            <Link to="/login">LoginForm</Link>
-                        </li>
-                        <li>
-                            <Link to="/registr">RegistrForm</Link>
-                        </li>
-                        <li>
-                            <Link to="/notebook">NotebookForm</Link>
-                        </li>
-                    </ul>
+
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div className="navbar-nav">
+                            <a className="nav-item nav-link active"><Link to="/profile">ProfileUser</Link></a>
+                            <a className="nav-item nav-link active"><Link to="/login">LoginForm</Link> </a>
+                            <a className="nav-item nav-link active"><Link to="/registr">RegistrForm</Link> </a>
+                            <a className="nav-item nav-link active"><Link to="/notebook">NotebookForm</Link> </a>
+                            <a className="nav-item nav-link active"><UserComponent/></a>
+                        </div>
+                    </div>
                 </nav>
+
 
                 <Switch>
                     <Route path="/login">

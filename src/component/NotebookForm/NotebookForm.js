@@ -6,8 +6,18 @@ import {connect} from 'react-redux'
 
 
 class NotebookForm extends Component {
-    state = {
-        notebooks: []
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            notebooks: [],
+            notes: [],
+            note_body: [],
+        }
+
+        this.notebookClick = this.notebookClick.bind(this);
+        this.noteClick = this.noteClick.bind(this);
+
     }
 
     async componentDidMount() {
@@ -15,39 +25,103 @@ class NotebookForm extends Component {
             headers: {'Authorization': `Token ${this.props.userToken}`}
         })
             .then(res => {
-                console.log(res.data.results);
                 this.setState({
-                    notebooks: res.data.results,
+                    notebooks: res.data,
                 })
             })
             .catch(error => {
             })
     }
 
+    async notebookClick(notes_url) {
+        await axios.get(notes_url, {
+            headers: {'Authorization': `Token ${this.props.userToken}`}
+        })
+            .then(res => {
+                console.log(res.data);
+                this.setState({
+                    notes: res.data,
+                })
+            })
+            .catch(error => {
+            })
+    }
+
+    async noteClick(url) {
+        await axios.get(url, {
+            headers: {'Authorization': `Token ${this.props.userToken}`}
+        })
+            .then(res => {
+                console.log(res.data);
+                this.setState({
+                    note_body: res.data,
+                })
+            })
+            .catch(error => {
+            })
+    }
+
+
     render() {
-        console.log(this.state.notebooks);
-        const noteBoooksHTML = this.state.notebooks.map((notebook,key) =>
-            <h1 key={key}>{notebook.name}</h1>
+        const noteBoooksHTML = this.state.notebooks.map((notebook, key) =>
+            <div className="card" key={key}>
+                <div className="card-body" onClick={this.notebookClick.bind(this, notebook.notes_url)}>
+                    {notebook.name}
+                </div>
+            </div>
+        );
+
+        const notesHTML = this.state.notes.map((note, key) =>
+            <div className="card" key={key} onClick={this.noteClick.bind(this, note.url)}>
+                <div className="card-body">
+                    {note.name}
+                </div>
+            </div>
+        );
+
+        // const noteBodyHTML = Object.keys(this.state.note_body).map((value, key) =>
+        //     <Row className="justify-content-md-center">
+        //         <div className="card" key={key}>
+        //             <div className="card-body">
+        //                 {value} : {this.state.note_body[value]}
+        //             </div>
+        //         </div>
+        //     </Row>
+        // );
+
+        const noteBodyHTML =(
+            <Row className="justify-content-md-center">
+                <div className="card" >
+                    <div className="card-body">
+                       {this.state.note_body.body}
+                    </div>
+                </div>
+            </Row>
         );
 
 
         return (
             <div>
-                <Container className="pt-sm-2">
-                    <Row className="justify-content-md-center">
-                        <Col md={3}/>
-                        <Col className="text-center">
+                <Container className="pt-sm-2" fluid>
+                    <Row>
+                        <Col className="text-center" md={2}>
                             {noteBoooksHTML}
                         </Col>
-                        <Col md={3}/>
+                        <Col className="text-center" md={2}>
+                            {notesHTML}
+                        </Col>
+                        <Col md={8} className="text-left">
+                            <Container className="pt-sm-2" fluid>
+                                {noteBodyHTML}
+                            </Container>
+                        </Col>
                     </Row>
                 </Container>
-
             </div>
-
         )
     }
 }
+
 
 const mapStateToProps = (state) => ({
     userToken: state.user.token

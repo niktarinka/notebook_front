@@ -21,6 +21,9 @@ class ProfileUser extends Component {
                     user_data: res.data,
                 })
             })
+            .catch(error=>{
+                console.log(error);
+            })
     }
 
     render() {

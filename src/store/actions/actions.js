@@ -4,3 +4,10 @@ export function setUserToken(token) {
     token: token,
   }
 }
+
+export function setUserAuth(authentication) {
+  return {
+    type: 'SET_USER_AUTH',
+    authentication: authentication,
+  }
+}
