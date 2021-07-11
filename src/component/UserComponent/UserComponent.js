@@ -36,6 +36,7 @@ class UserComponent extends Component {
     render() {
         let html = <div>
             ------
+            ------
         </div>
 
         if (this.props.authentication) {
