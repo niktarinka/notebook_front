@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Col, Container, Row} from "react-bootstrap";
+import {Button, Card, CloseButton, Col, Container, ListGroup, Row} from "react-bootstrap";
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import {connect} from 'react-redux'
@@ -19,6 +19,8 @@ class NotebookForm extends Component {
         }
         this.notebookClick = this.notebookClick.bind(this);
         this.noteClick = this.noteClick.bind(this);
+        this.notebookDell = this.notebookDell.bind(this);
+
     }
 
     async componentDidMount() {
@@ -34,6 +36,20 @@ class NotebookForm extends Component {
             })
     }
 
+    async notebookDell(id) {
+          await axios.delete(`http://127.0.0.1:8000/api/notebook/${id}`, {
+            headers: {'Authorization': `Token ${this.props.userToken}`}
+        })
+            .then(res => {
+               console.log(res.data);
+               this.forceUpdate();
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+    }
+
     async notebookClick(notes_url) {
         await axios.get(notes_url, {
             headers: {'Authorization': `Token ${this.props.userToken}`}
@@ -42,6 +58,7 @@ class NotebookForm extends Component {
                 this.setState({
                     notes: res.data,
                 })
+                console.log(res.data);
             })
             .catch(error => {
             })
@@ -60,23 +77,24 @@ class NotebookForm extends Component {
             })
     }
 
-
     render() {
+
         const noteBoooksHTML = this.state.notebooks.map((notebook, key) =>
-            <div className="card" key={key}>
-                <div className="card-body" onClick={this.notebookClick.bind(this, notebook.notes_url)}>
-                    {notebook.name}
-                </div>
-            </div>
+            <ListGroup.Item onClick={this.notebookClick.bind(this, notebook.notes_url)} key={key}>
+                <span className="visually-hidden">{notebook.name}</span>
+                <CloseButton onClick={this.notebookDell.bind(this, notebook.id)}/>
+            </ListGroup.Item>
         );
+
 
         const notesHTML = this.state.notes.map((note, key) =>
-            <div className="card" key={key} onClick={this.noteClick.bind(this, note.url)}>
-                <div className="card-body">
-                    {note.name}
-                </div>
-            </div>
-        );
+
+                <ListGroup.Item onClick={this.noteClick.bind(this, note.url)} key={key}>
+                    <span className="visually-hidden">{note.name}</span>
+                    <CloseButton onClick={this.notebookDell.bind(this, note.id)}/>
+                </ListGroup.Item>
+            )
+        ;
 
         const noteBodyHTML = (
             <Row className="justify-content-md-center">
@@ -93,10 +111,24 @@ class NotebookForm extends Component {
                 <Container className="pt-sm-2" fluid>
                     <Row>
                         <Col className="text-center" md={2}>
-                            {noteBoooksHTML}
+                            <Card style={{width: '18rem'}}>
+                                <Card.Header>Блокноты</Card.Header>
+                                <ListGroup variant="flush">
+                                    {noteBoooksHTML}
+                                </ListGroup>
+                            </Card>
+
                         </Col>
                         <Col className="text-center" md={2}>
-                            {notesHTML}
+                            <Card style={{width: '18rem'}}>
+                                <Card.Header>Заметки</Card.Header>
+                                <ListGroup variant="flush">
+
+                                    {notesHTML}
+                                </ListGroup>
+                            </Card>
+
+
                         </Col>
                         <Col md={8} className="text-left">
                             <Container className="pt-sm-2" fluid>

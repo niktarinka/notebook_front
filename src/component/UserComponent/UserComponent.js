@@ -1,13 +1,10 @@
 import React, {Component} from 'react'
-// import {Alert, Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import {withRouter} from 'react-router-dom';
-// import axios from "axios";
 import {connect} from 'react-redux'
 import {Button, Dropdown, DropdownButton} from "react-bootstrap";
 import axios from "axios";
-import {exitUser, setUserAuth, setUserData, setUserToken} from "../../store/actions/actions";
+import {exitUser} from "../../store/actions/actions";
 
-// import {setUserToken} from "../../store/actions/actions";
 
 class UserComponent extends Component {
     constructor(props) {
@@ -15,8 +12,11 @@ class UserComponent extends Component {
         this.state = {
             user_data: {username: null},
         };
+
+
         this.linkClick = this.linkClick.bind(this);
         this.exitClick = this.exitClick.bind(this);
+
     }
 
     linkClick(link) {
@@ -40,7 +40,6 @@ class UserComponent extends Component {
                 })
             })
             .catch(error => {
-                console.log(error);
             })
 
         return true;
@@ -51,11 +50,13 @@ class UserComponent extends Component {
 
         let html;
         if (this.props.authentication) {
-            html = <DropdownButton title={this.state.user_data.username} id="bg-nested-dropdown">
-                <Dropdown.Item eventKey="1" onClick={this.linkClick.bind(this, "profile")}>Профиль</Dropdown.Item>
-                <Dropdown.Item eventKey="2" onClick={this.linkClick.bind(this, "notebook")}> Блокноты</Dropdown.Item>
-                <Dropdown.Item eventKey="3" onClick={this.exitClick}> Выход</Dropdown.Item>
-            </DropdownButton>
+            html =
+                <DropdownButton title={this.state.user_data.username} id="bg-nested-dropdown" variant="outline-light">
+                    <Dropdown.Item eventKey="1" onClick={this.linkClick.bind(this, "profile")}>Профиль</Dropdown.Item>
+                    <Dropdown.Item eventKey="2"
+                                   onClick={this.linkClick.bind(this, "notebook")}> Блокноты</Dropdown.Item>
+                    <Dropdown.Item eventKey="3" onClick={this.exitClick}> Выход</Dropdown.Item>
+                </DropdownButton>
         } else {
             html = <div>
                 <Button variant="outline-light" onClick={this.linkClick.bind(this, "login")}>Войти</Button>
