@@ -3,30 +3,26 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
 } from "react-router-dom";
 import RegistrForm from "./component/RegistrForm/RegistrForm";
 import LoginForm from "./component/LoginForm/loginForm";
 import ProfileUser from "./component/ProfileUser/ProfileUser";
 import NotebookForm from "./component/NotebookForm/NotebookForm";
 import UserComponent from "./component/UserComponent/UserComponent";
+import {Navbar} from "react-bootstrap";
+import Home from "./component/Home/Home";
 
 export default function App() {
     return (
         <Router>
-            <div>
+            <>
 
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div className="navbar-nav">
-                            <a className="nav-item nav-link active"><Link to="/profile">ProfileUser</Link></a>
-                            <a className="nav-item nav-link active"><Link to="/login">LoginForm</Link> </a>
-                            <a className="nav-item nav-link active"><Link to="/registr">RegistrForm</Link> </a>
-                            <a className="nav-item nav-link active"><Link to="/notebook">NotebookForm</Link> </a>
-                            <a className="nav-item nav-link active"><UserComponent/></a>
-                        </div>
+                <Navbar bg="primary" variant="dark">
+                    <Navbar.Brand className="mr-auto">Notebook</Navbar.Brand>
+                    <div className="pr-5">
+                        <UserComponent/>
                     </div>
-                </nav>
+                </Navbar>
 
 
                 <Switch>
@@ -42,8 +38,11 @@ export default function App() {
                     <Route path="/notebook">
                         <NotebookForm/>
                     </Route>
+                    <Route path="/">
+                        <Home/>
+                    </Route>
                 </Switch>
-            </div>
+            </>
         </Router>
     );
 }

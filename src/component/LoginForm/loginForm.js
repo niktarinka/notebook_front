@@ -3,7 +3,7 @@ import {Alert, Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import {connect} from 'react-redux'
-import {setUserToken, setUserAuth} from "../../store/actions/actions";
+import {setUserToken, setUserAuth, setUserData} from "../../store/actions/actions";
 
 class LoginForm extends Component {
     constructor(props) {
@@ -54,16 +54,13 @@ class LoginForm extends Component {
         }));
     }
 
-    userLoginClick() {
+    async userLoginClick() {
 
-        axios.post(`http://127.0.0.1:8000/api/user/login/`, this.state)
+        await axios.post(`http://127.0.0.1:8000/api/user/login/`, this.state)
             .then(res => {
                 this.props.setUserTokenAction(res.data.token);
                 this.props.setUserAuth(true);
-                this.setState({
-                    token: res.data.token,
-                    mess_show: true,
-                });
+                this.props.history.push('/notebook');
 
             }).catch(error => {
             this.setState(state => ({
@@ -190,6 +187,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setUserTokenAction: (token) => dispatch(setUserToken(token)),
         setUserAuth: (authentication) => dispatch(setUserAuth(authentication)),
+        setUserData: (data) => dispatch(setUserData(data)),
+
     }
 }
 

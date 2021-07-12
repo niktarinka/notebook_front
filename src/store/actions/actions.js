@@ -11,3 +11,16 @@ export function setUserAuth(authentication) {
     authentication: authentication,
   }
 }
+
+export function setUserData(data) {
+  return {
+    type: 'SET_USER_DATA',
+    data: data,
+  }
+}
+
+export function exitUser() {
+  return {
+    type: 'EXIT_USER',
+  }
+}

@@ -10,9 +10,13 @@ class ProfileUser extends Component {
         this.state = {
             user_data: {},
         };
+       if (!this.props.authentication){
+            this.props.history.push('/home');}
     }
 
     async componentDidMount() {
+        if (!this.props.authentication) return;
+
         await axios.post(`http://127.0.0.1:8000/api/user/get_data/`, {}, {
             headers: {'Authorization': `Token ${this.props.userToken}`}
         })
@@ -21,8 +25,7 @@ class ProfileUser extends Component {
                     user_data: res.data,
                 })
             })
-            .catch(error=>{
-                console.log(error);
+            .catch(error => {
             })
     }
 
@@ -71,7 +74,9 @@ class ProfileUser extends Component {
     }
 }
 
+
 const mapStateToProps = (state) => ({
+    authentication: state.user.authentication,
     userToken: state.user.token
 })
 export default connect(mapStateToProps)(withRouter(ProfileUser));

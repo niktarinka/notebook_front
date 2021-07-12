@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Alert, Button, Card, Col, Container, Form, Row} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import {connect} from 'react-redux'
@@ -14,10 +14,11 @@ class NotebookForm extends Component {
             notes: [],
             note_body: [],
         }
-
+        if (!this.props.authentication) {
+            this.props.history.push('/home');
+        }
         this.notebookClick = this.notebookClick.bind(this);
         this.noteClick = this.noteClick.bind(this);
-
     }
 
     async componentDidMount() {
@@ -38,7 +39,6 @@ class NotebookForm extends Component {
             headers: {'Authorization': `Token ${this.props.userToken}`}
         })
             .then(res => {
-                console.log(res.data);
                 this.setState({
                     notes: res.data,
                 })
@@ -52,7 +52,6 @@ class NotebookForm extends Component {
             headers: {'Authorization': `Token ${this.props.userToken}`}
         })
             .then(res => {
-                console.log(res.data);
                 this.setState({
                     note_body: res.data,
                 })
@@ -79,26 +78,15 @@ class NotebookForm extends Component {
             </div>
         );
 
-        // const noteBodyHTML = Object.keys(this.state.note_body).map((value, key) =>
-        //     <Row className="justify-content-md-center">
-        //         <div className="card" key={key}>
-        //             <div className="card-body">
-        //                 {value} : {this.state.note_body[value]}
-        //             </div>
-        //         </div>
-        //     </Row>
-        // );
-
-        const noteBodyHTML =(
+        const noteBodyHTML = (
             <Row className="justify-content-md-center">
-                <div className="card" >
+                <div className="card">
                     <div className="card-body">
-                       {this.state.note_body.body}
+                        {this.state.note_body.body}
                     </div>
                 </div>
             </Row>
         );
-
 
         return (
             <div>
@@ -122,8 +110,8 @@ class NotebookForm extends Component {
     }
 }
 
-
 const mapStateToProps = (state) => ({
+    authentication: state.user.authentication,
     userToken: state.user.token
 })
 
