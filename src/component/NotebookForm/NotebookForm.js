@@ -24,6 +24,7 @@ class NotebookForm extends Component {
     }
 
     async componentDidMount() {
+        if (!this.props.authentication) return;
         await axios.get(`http://127.0.0.1:8000/api/notebook/list`, {
             headers: {'Authorization': `Token ${this.props.userToken}`}
         })

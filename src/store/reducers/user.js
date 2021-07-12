@@ -4,6 +4,7 @@ const initialState = {
     data: {}
 }
 
+
 export function userReducer(state = initialState, action) {
     switch (action.type) {
         case 'SET_USER_TOKEN':
@@ -15,6 +16,8 @@ export function userReducer(state = initialState, action) {
         case 'EXIT_USER':
             return {...state, authentication: false, data: {}, token: ''}
 
+        case 'SET_USER_DATA':
+            return {...state,data: action.data}
         default:
             return state
 

@@ -58,16 +58,27 @@ class LoginForm extends Component {
 
         await axios.post(`http://127.0.0.1:8000/api/user/login/`, this.state)
             .then(res => {
+
+                axios.post(`http://127.0.0.1:8000/api/user/get_data/`, {}, {
+                    headers: {'Authorization': `Token ${res.data.token}`}
+                }).then(reses => {
+                    console.log(reses.data);
+                    this.props.setUserData(reses.data);
+                }).catch(error=>{
+                    console.log(error);
+                })
+                localStorage.setItem('token', res.data.token);
                 this.props.setUserTokenAction(res.data.token);
                 this.props.setUserAuth(true);
                 this.props.history.push('/notebook');
 
             }).catch(error => {
-            this.setState(state => ({
-                password_invalid: true,
-                username_invalid: true
-            }));
-        });
+                this.setState(state => ({
+                    password_invalid: true,
+                    username_invalid: true
+                }));
+            });
+
 
     }
 
