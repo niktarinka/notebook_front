@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, CloseButton, Col, Container, ListGroup, Row} from "react-bootstrap";
+import {Button, Card, CloseButton, Col, Container, ListGroup, Row} from "react-bootstrap";
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import {connect} from 'react-redux'
@@ -20,6 +20,7 @@ class NotebookForm extends Component {
         this.notebookClick = this.notebookClick.bind(this);
         this.noteClick = this.noteClick.bind(this);
         this.notebookDell = this.notebookDell.bind(this);
+        this.addNoteBook = this.addNoteBook.bind(this);
 
     }
 
@@ -84,18 +85,21 @@ class NotebookForm extends Component {
             })
     }
 
+     addNoteBook() {
+
+    }
+
     render() {
 
         const noteBoooksHTML = this.state.notebooks.map((notebook, key) =>
             <ListGroup.Item onClick={this.notebookClick.bind(this, notebook.notes_url)} key={key}>
-                <span className="visually-hidden">{notebook.name}</span>
+                <a className="visually-hidden">{notebook.name}</a>
                 <CloseButton onClick={this.notebookDell.bind(this, notebook.id)}/>
             </ListGroup.Item>
         );
 
 
         const notesHTML = this.state.notes.map((note, key) =>
-
                 <ListGroup.Item onClick={this.noteClick.bind(this, note.url)} key={key}>
                     <span className="visually-hidden">{note.name}</span>
                     <CloseButton onClick={this.notebookDell.bind(this, note.id)}/>
@@ -119,9 +123,15 @@ class NotebookForm extends Component {
                     <Row>
                         <Col className="text-center" md={2}>
                             <Card style={{width: '18rem'}}>
-                                <Card.Header>Блокноты</Card.Header>
+                                <Card.Header className="justify-content-between">Блокноты
+                                    {/*<Button variant='success' onClick={this.addNoteBook} size="sm"></Button>*/}
+                                </Card.Header>
                                 <ListGroup variant="flush">
                                     {noteBoooksHTML}
+                                                <ListGroup.Item key={key}>
+                <a className="visually-hidden">{notebook.name}</a>
+                <CloseButton onClick={this.notebookDell.bind(this, notebook.id)}/>
+                                                </ListGroup.Item>
                                 </ListGroup>
                             </Card>
 
@@ -130,7 +140,6 @@ class NotebookForm extends Component {
                             <Card style={{width: '18rem'}}>
                                 <Card.Header>Заметки</Card.Header>
                                 <ListGroup variant="flush">
-
                                     {notesHTML}
                                 </ListGroup>
                             </Card>
