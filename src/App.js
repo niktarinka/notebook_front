@@ -16,14 +16,12 @@ export default function App() {
     return (
         <Router>
             <>
-
                 <Navbar bg="primary" variant="dark">
                     <Navbar.Brand className="mr-auto">Notebook</Navbar.Brand>
                     <div className="pr-5">
                         <UserComponent/>
                     </div>
                 </Navbar>
-
 
                 <Switch>
                     <Route path="/login">
@@ -46,5 +44,7 @@ export default function App() {
         </Router>
     );
 }
+
+
 
 

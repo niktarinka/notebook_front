@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Button, Card, CloseButton, Col, Container, ListGroup, Row} from "react-bootstrap";
+import {Card, CloseButton, Col, Container, ListGroup, Row} from "react-bootstrap";
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import {connect} from 'react-redux'
@@ -29,6 +29,8 @@ class NotebookForm extends Component {
             headers: {'Authorization': `Token ${this.props.userToken}`}
         })
             .then(res => {
+                console.log(res.data);
+
                 this.setState({
                     notebooks: res.data,
                 })
@@ -38,12 +40,16 @@ class NotebookForm extends Component {
     }
 
     async notebookDell(id) {
-          await axios.delete(`http://127.0.0.1:8000/api/notebook/${id}`, {
+        await axios.delete(`http://127.0.0.1:8000/api/notebook/${id}`, {
             headers: {'Authorization': `Token ${this.props.userToken}`}
         })
             .then(res => {
-               console.log(res.data);
-               this.forceUpdate();
+                const result = this.state.notebooks.filter(notebook => notebook.id !== id);
+                this.setState({
+                    notebooks: result,
+                    notes: [],
+                })
+
             })
             .catch(error => {
                 console.log(error);

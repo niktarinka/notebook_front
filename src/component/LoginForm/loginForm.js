@@ -11,7 +11,6 @@ class LoginForm extends Component {
         const id = Math.floor(Math.random() * Math.floor(99999999999));
         this.state = {
             username: `test_${id}`,
-            email: `test_${id}@gmail.com`,
             password: "39689794aa",
             password_invalid: false,
             username_invalid: false,
@@ -62,7 +61,6 @@ class LoginForm extends Component {
                 axios.post(`http://127.0.0.1:8000/api/user/get_data/`, {}, {
                     headers: {'Authorization': `Token ${res.data.token}`}
                 }).then(reses => {
-                    console.log(reses.data);
                     this.props.setUserData(reses.data);
                 }).catch(error=>{
                     console.log(error);
@@ -87,12 +85,11 @@ class LoginForm extends Component {
     }
 
     async componentDidMount() {
-        await axios.get(`http://127.0.0.1:8000/api/user/last_id/`)
+        await axios.get(`http://127.0.0.1:8000/api/user/last_user/`)
             .then(res => {
-                const id = res.data.user_id;
+                const username = res.data.username;
                 this.setState({
-                    username: `test_${id}`,
-                    email: `test_${id}@gmail.com`,
+                    username: username
                 })
             })
     }

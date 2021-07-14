@@ -29,18 +29,14 @@ class UserComponent extends Component {
     }
 
     async componentDidMount() {
-        let token = localStorage.getItem('token');
-        console.log(token);
         axios.post(`http://127.0.0.1:8000/api/user/get_data/`, {}, {
-            headers: {'Authorization': `Token ${token}`}
+            headers: {'Authorization': `Token ${this.props.userToken}`}
         }).then(reses => {
             this.props.setUserData(reses.data);
-            this.props.setUserTokenAction(token);
             this.props.setUserAuth(true);
         }).catch(error => {
 
         })
-
 
     }
 
@@ -68,7 +64,7 @@ class UserComponent extends Component {
 function mapDispatchToProps(dispatch) {
     return {
         exitUser: () => dispatch(exitUser()),
-        setUserTokenAction: (token) => dispatch(setUserToken(token)),
+        setUserToken: (token) => dispatch(setUserToken(token)),
         setUserAuth: (authentication) => dispatch(setUserAuth(authentication)),
         setUserData: (data) => dispatch(setUserData(data)),
     }
