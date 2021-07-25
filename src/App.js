@@ -7,7 +7,7 @@ import {
 import RegistrForm from "./component/RegistrForm/RegistrForm";
 import LoginForm from "./component/LoginForm/loginForm";
 import ProfileUser from "./component/ProfileUser/ProfileUser";
-import NotebookForm from "./component/NotebookForm/NotebookForm";
+import NotebookForm from "./component/NotebookForm/NotebookForm_v1";
 import UserComponent from "./component/UserComponent/UserComponent";
 import {Navbar} from "react-bootstrap";
 import Home from "./component/Home/Home";
