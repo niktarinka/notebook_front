@@ -275,6 +275,10 @@ class NotebookForm_v1 extends Component {
                                             <Button variant="outline-secondary" onClick={this.shouModalName}>
                                                 Добавить
                                             </Button>
+
+
+
+
                                         </InputGroup>
                                     </ListGroup.Item>
                                 </ListGroup>
