@@ -3,7 +3,7 @@ import {Button, Card, CloseButton, Col, Container, FormControl, InputGroup, List
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 import {connect} from 'react-redux'
-
+import ModalName from "../ModelName/ModelName";
 
 class NotebookForm_v1 extends Component {
 
@@ -16,6 +16,7 @@ class NotebookForm_v1 extends Component {
             noteBookName: "",
             noteName: "",
             noteBookID: null,
+            modalShow: false,
         }
         if (!this.props.authentication) {
             this.props.history.push('/home');
@@ -30,6 +31,7 @@ class NotebookForm_v1 extends Component {
         this.noteDell = this.noteDell.bind(this);
         this.noteBodyChange = this.noteBodyChange.bind(this);
         this.noteSave = this.noteSave.bind(this);
+        this.shouModalName = this.shouModalName.bind(this);
     }
 
     async componentDidMount() {
@@ -98,6 +100,10 @@ class NotebookForm_v1 extends Component {
 
     }
 
+    shouModalName() {
+        this.setState({modalShow: true});
+    }
+
     async noteSave() {
         const data = {body: this.state.noteBody.body};
         await axios.put(`http://127.0.0.1:8000/api/note/${this.state.noteBody.id}`, data, {
@@ -119,7 +125,6 @@ class NotebookForm_v1 extends Component {
         });
         this.noteSave();
     }
-
 
     async noteClick(url) {
 
@@ -156,9 +161,9 @@ class NotebookForm_v1 extends Component {
             })
     }
 
-    async addNote() {
+    async addNote(name) {
         const data = {
-            name: this.state.noteName,
+            name: name,
             note_book_id: this.state.noteBookID,
             body: ""
         }
@@ -210,14 +215,14 @@ class NotebookForm_v1 extends Component {
                 <CloseButton onClick={this.noteDell.bind(this, note.id)}/>
             </ListGroup.Item>);
 
-
         let noteBodyHTML = "";
 
         if (this.state.noteBody.body !== undefined) {
             noteBodyHTML = (
                 <>
                     <InputGroup className="mb-3">
-                        <FormControl value={this.state.noteBody.body} onChange={this.noteBodyChange} as="textarea" rows={20} />
+                        <FormControl value={this.state.noteBody.body} onChange={this.noteBodyChange} as="textarea"
+                                     rows={20}/>
                     </InputGroup>
                     <InputGroup className="mb-3">
                         {/*<Button variant="outline-secondary" onClick={this.noteSave}>*/}
@@ -228,9 +233,9 @@ class NotebookForm_v1 extends Component {
             );
         }
 
-
         return (
             <div>
+                <ModalName show={this.state.modalShow} addNote={this.addNote}/>
                 <Container className="pt-sm-2" fluid>
                     <Row>
                         <Col className="text-center" md={2}>
@@ -244,9 +249,13 @@ class NotebookForm_v1 extends Component {
                                         <InputGroup className="mb-3">
                                             <FormControl onChange={this.noteBookNameChange}
                                                          value={this.state.noteBookName}/>
-                                            <Button variant="outline-secondary" onClick={this.addNoteBook}>
+                                            {/*<Button variant="outline-secondary" onClick={this.addNoteBook}>*/}
+                                            {/*    Добавить*/}
+                                            {/*</Button>*/}
+                                            <Button variant="outline-secondary" onClick={this.shouModalName}>
                                                 Добавить
                                             </Button>
+
                                         </InputGroup>
                                     </ListGroup.Item>
                                 </ListGroup>
@@ -261,9 +270,9 @@ class NotebookForm_v1 extends Component {
                                     {notesHTML}
                                     <ListGroup.Item>
                                         <InputGroup className="mb-3">
-                                            <FormControl onChange={this.noteNameChange}
-                                                         value={this.state.noteName}/>
-                                            <Button variant="outline-secondary" onClick={this.addNote}>
+                                            {/*<FormControl onChange={this.noteNameChange}*/}
+                                            {/*             value={this.state.noteName}/>*/}
+                                            <Button variant="outline-secondary" onClick={this.shouModalName}>
                                                 Добавить
                                             </Button>
                                         </InputGroup>
